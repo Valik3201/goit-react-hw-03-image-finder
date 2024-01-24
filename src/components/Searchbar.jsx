@@ -11,21 +11,24 @@ import {
 } from 'react-bootstrap';
 
 export const Searchbar = () => {
-  const [radioValue, setRadioValue] = useState('light');
+  const [theme, setTheme] = useState('light');
 
   const radios = [
     { name: 'Light', value: 'light' },
     { name: 'Dark', value: 'dark' },
   ];
 
-  const handleThemeChange = theme => {
-    document.documentElement.setAttribute('data-bs-theme', theme);
+  const handleThemeChange = selectedTheme => {
+    setTheme(selectedTheme);
+
+    // Применяем тему к document.documentElement
+    document.documentElement.setAttribute('data-bs-theme', selectedTheme);
   };
 
   return (
     <div>
-      <Navbar bg="light" data-bs-theme="light" fixed="top">
-        <Container className="justify-content-center">
+      <Navbar bg={theme} variant={theme} fixed="top">
+        <Container className="justify-content-center pt-1 pb-1">
           <Row className="mb-2 mb-md-0 justify-content-between align-items-center w-100">
             <Navbar.Brand as={Col} xs={2} href="#">
               Image Finder
@@ -45,11 +48,8 @@ export const Searchbar = () => {
                   variant="secondary"
                   name="theme"
                   value={radio.value}
-                  checked={radioValue === radio.value}
-                  onChange={e => {
-                    setRadioValue(e.currentTarget.value);
-                    handleThemeChange(e.currentTarget.value);
-                  }}
+                  checked={theme === radio.value}
+                  onChange={() => handleThemeChange(radio.value)}
                 >
                   {radio.name}
                 </ToggleButton>
@@ -64,6 +64,7 @@ export const Searchbar = () => {
                 placeholder="Search images and photos"
                 className="me-2"
                 aria-label="Search"
+                bg={theme}
               />
               <Button type="submit" variant="primary">
                 Search
