@@ -21,7 +21,6 @@ export const Searchbar = () => {
   const handleThemeChange = selectedTheme => {
     setTheme(selectedTheme);
 
-    // Применяем тему к document.documentElement
     document.documentElement.setAttribute('data-bs-theme', selectedTheme);
   };
 
