@@ -29,7 +29,7 @@ export const Searchbar = () => {
       <Navbar bg={theme} variant={theme} fixed="top">
         <Container className="justify-content-center pt-1 pb-1">
           <Row className="mb-2 mb-md-0 justify-content-between align-items-center w-100">
-            <Navbar.Brand as={Col} xs={2} href="#">
+            <Navbar.Brand as={Col} xs={2}>
               Image Finder
             </Navbar.Brand>
 
@@ -44,7 +44,7 @@ export const Searchbar = () => {
                   key={idx}
                   id={`theme-radio-${idx}`}
                   type="radio"
-                  variant="secondary"
+                  variant={`outline-${theme === 'light' ? 'dark' : 'light'}`}
                   name="theme"
                   value={radio.value}
                   checked={theme === radio.value}
