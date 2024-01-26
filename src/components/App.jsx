@@ -3,6 +3,8 @@ import Searchbar from './Searchbar';
 import { ImageGallery } from './ImageGallery';
 import ImagePortalWelcome from './ImagePortalWelcome';
 
+import { Container, Row, Col, Alert } from 'react-bootstrap';
+
 import axios from 'axios';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,6 +19,7 @@ class App extends Component {
 
     this.state = {
       images: [],
+      searchQuery: '',
     };
   }
 
@@ -25,7 +28,7 @@ class App extends Component {
       const response = await axios.get(
         `/?q=${searchQuery}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
       );
-      this.setState({ images: response.data.hits });
+      this.setState({ images: response.data.hits, searchQuery });
     } catch (error) {
       console.error('Error searching for images:', error);
     } finally {
@@ -40,18 +43,29 @@ class App extends Component {
   }
 
   render() {
-    const { images } = this.state;
+    const { images, searchQuery } = this.state;
 
     return (
       <>
         <Searchbar onSearch={this.getImages} />
-        <div>
+        <Container>
           {images.length > 0 ? (
-            <ImageGallery images={images} />
+            <Row className="d-flex justify-content-center mb-5 mx-auto">
+              <Alert
+                variant="primary"
+                as={Col}
+                style={{ width: 'fit-content' }}
+              >
+                Showing results for
+                <span className="fw-bold"> {searchQuery}</span>
+              </Alert>
+
+              <ImageGallery images={images} />
+            </Row>
           ) : (
             <ImagePortalWelcome />
           )}
-        </div>
+        </Container>
       </>
     );
   }

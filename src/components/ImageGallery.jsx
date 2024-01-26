@@ -1,7 +1,7 @@
 import { Container, Col, Row, Image } from 'react-bootstrap';
 
 export const ImageGallery = ({ images }) => (
-  <Container className="justify-content-center pt-4 mt-5 mb-5">
+  <Container className="justify-content-center">
     <Row xs={1} sm={2} md={3} lg={4} className="g-4">
       <ImageGalleryItem images={images} />
     </Row>

@@ -29,6 +29,7 @@ class Searchbar extends Component {
     this.setState({ theme: selectedTheme });
 
     document.documentElement.setAttribute('data-bs-theme', selectedTheme);
+    document.body.className = `bg-${selectedTheme}`;
   };
 
   handleInputChange = e => {
