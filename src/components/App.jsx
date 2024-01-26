@@ -1,6 +1,7 @@
 import { Component } from 'react';
-import { Searchbar } from './Searchbar';
+import Searchbar from './Searchbar';
 import { ImageGallery } from './ImageGallery';
+import ImagePortalWelcome from './ImagePortalWelcome';
 
 import axios from 'axios';
 
@@ -19,11 +20,23 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
-    const response = await axios.get(
-      `/?q=cat&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
-    );
-    this.setState({ images: response.data.hits });
+  getImages = async searchQuery => {
+    try {
+      const response = await axios.get(
+        `/?q=${searchQuery}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+      );
+      this.setState({ images: response.data.hits });
+    } catch (error) {
+      console.error('Error searching for images:', error);
+    } finally {
+      // for Loader
+    }
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.searchQuery !== this.props.searchQuery) {
+      this.getImages(this.props.searchQuery);
+    }
   }
 
   render() {
@@ -31,8 +44,14 @@ class App extends Component {
 
     return (
       <>
-        <Searchbar />
-        <div>{images.length > 0 ? <ImageGallery images={images} /> : null}</div>
+        <Searchbar onSearch={this.getImages} />
+        <div>
+          {images.length > 0 ? (
+            <ImageGallery images={images} />
+          ) : (
+            <ImagePortalWelcome />
+          )}
+        </div>
       </>
     );
   }
