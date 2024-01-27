@@ -3,12 +3,14 @@ import Searchbar from './Searchbar';
 import { ImageGallery } from './ImageGallery';
 import ImagePortalWelcome from './ImagePortalWelcome';
 import { LoadMoreBtn } from './Button';
+import { SearchResultInfo } from './SearchResultInfo';
 
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 
 import axios from 'axios';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Loader } from './Loader';
 
 const API_KEY = '41006597-e52c63fe5093395ccafd50f48';
 
@@ -22,11 +24,16 @@ class App extends Component {
       images: [],
       searchQuery: '',
       activePage: 1,
+      isLoading: false,
     };
   }
 
   getImages = async (searchQuery, activePage) => {
     try {
+      this.setState({
+        isLoading: true,
+      });
+
       const params = {
         q: searchQuery,
         page: activePage,
@@ -51,7 +58,9 @@ class App extends Component {
     } catch (error) {
       console.error('Error searching for images:', error.message);
     } finally {
-      // for Loader
+      this.setState({
+        isLoading: false,
+      });
     }
   };
 
@@ -63,32 +72,24 @@ class App extends Component {
     this.setState({ activePage: nextPage });
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.searchQuery !== this.props.searchQuery) {
       this.getImages(this.props.searchQuery);
     }
   }
 
   render() {
-    const { images, searchQuery } = this.state;
+    const { images, searchQuery, isLoading } = this.state;
 
     return (
       <>
         <Searchbar onSearch={this.getImages} />
         <Container className="d-flex flex-column justify-content-center mb-5 mx-auto">
+          {isLoading && <Loader />}
           {images.length > 0 ? (
             <>
               <Row>
-                <Container>
-                  <Row className="justify-content-center text-center">
-                    <Col xs="auto">
-                      <Alert variant="primary">
-                        Showing results for
-                        <span className="fw-bold"> {searchQuery}</span>
-                      </Alert>
-                    </Col>
-                  </Row>
-                </Container>
+                <SearchResultInfo searchQuery={searchQuery} />
               </Row>
               <Row>
                 <ImageGallery images={images} />
