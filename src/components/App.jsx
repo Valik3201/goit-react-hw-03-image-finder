@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import Searchbar from './Searchbar';
-import { ImageGallery } from './ImageGallery';
+import ImageGallery from './ImageGallery';
 import ImagePortalWelcome from './ImagePortalWelcome';
 import { LoadMoreBtn } from './Button';
 import { SearchResultInfo } from './SearchResultInfo';
