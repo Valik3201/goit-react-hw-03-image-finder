@@ -3,8 +3,8 @@ import { Container, Row, Col, Alert } from 'react-bootstrap';
 function ImagePortalWelcome() {
   return (
     <Container>
-      <Row className="d-flex align-items-center justify-content-center vh-100 position-absolute top-0 start-0">
-        <Col xs={8} md={6}>
+      <Row className="justify-content-center mt-5">
+        <Col xs={12} md={6}>
           <Alert variant="success">
             <Alert.Heading>Hey, nice to see you!</Alert.Heading>
             <p>
