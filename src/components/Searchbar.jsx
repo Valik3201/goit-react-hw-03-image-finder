@@ -25,6 +25,29 @@ class Searchbar extends Component {
     ];
   }
 
+  componentDidMount() {
+    const prefersDarkMode = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+
+    this.handleThemeChange(prefersDarkMode ? 'dark' : 'light');
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', this.handleSystemThemeChange);
+  }
+
+  componentWillUnmount() {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .removeEventListener('change', this.handleSystemThemeChange);
+  }
+
+  handleSystemThemeChange = e => {
+    const prefersDarkMode = e.matches;
+    this.handleThemeChange(prefersDarkMode ? 'dark' : 'light');
+  };
+
   handleThemeChange = selectedTheme => {
     this.setState({ theme: selectedTheme });
 
