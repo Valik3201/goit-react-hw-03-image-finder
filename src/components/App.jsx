@@ -4,6 +4,8 @@ import { ImageGallery } from './ImageGallery';
 import ImagePortalWelcome from './ImagePortalWelcome';
 import { LoadMoreBtn } from './Button';
 import { SearchResultInfo } from './SearchResultInfo';
+import ErrorAlert from './ErrorAlert';
+import NoResultsAlert from './NoResultsAlert';
 
 import { Container, Row } from 'react-bootstrap';
 
@@ -25,6 +27,7 @@ class App extends Component {
       searchQuery: '',
       activePage: 1,
       isLoading: false,
+      error: null,
     };
   }
 
@@ -56,7 +59,9 @@ class App extends Component {
         searchQuery,
       }));
     } catch (error) {
-      console.error('Error searching for images:', error.message);
+      this.setState({
+        error: error.message,
+      });
     } finally {
       this.setState({
         isLoading: false,
@@ -79,14 +84,15 @@ class App extends Component {
   }
 
   render() {
-    const { images, searchQuery, isLoading } = this.state;
+    const { images, searchQuery, isLoading, error } = this.state;
 
     return (
       <>
         <Searchbar onSearch={this.getImages} />
         <Container className="d-flex flex-column justify-content-center mb-5 mx-auto">
           {isLoading && <Loader />}
-          {images.length > 0 ? (
+          {error && <ErrorAlert errorMessage={error} />}
+          {images.length > 0 && !error ? (
             <>
               <Row>
                 <SearchResultInfo searchQuery={searchQuery} />
@@ -98,8 +104,12 @@ class App extends Component {
                 <LoadMoreBtn onClick={this.loadMoreImages} />
               </Row>
             </>
+          ) : images.length === 0 && searchQuery && !error ? (
+            <Row>
+              <NoResultsAlert searchQuery={searchQuery} />
+            </Row>
           ) : (
-            <ImagePortalWelcome />
+            !error && <ImagePortalWelcome />
           )}
         </Container>
       </>
