@@ -49,20 +49,15 @@ class Searchbar extends Component {
     const { theme, searchQuery } = this.state;
 
     return (
-      <div>
-        <Navbar bg={theme} variant={theme} fixed="top">
-          <Container className="justify-content-center pt-1 pb-1">
-            <Row className="mb-2 mb-md-0 justify-content-between align-items-center w-100">
-              <Navbar.Brand as={Col} xs={2}>
-                Image Finder
-              </Navbar.Brand>
+      <Navbar bg={theme} variant={theme} fixed="top">
+        <Container className="justify-content-center pt-1 pb-1">
+          <Row className="justify-content-between mb-2 mb-md-0 align-items-center w-100">
+            <Col xs={2} className="ps-0">
+              <Navbar.Brand>Image Finder</Navbar.Brand>
+            </Col>
 
-              <ButtonGroup
-                as={Col}
-                xs={2}
-                md={{ order: 'last' }}
-                className="mb-2 mb-md-0 d-flex justify-content-end"
-              >
+            <Col xs={2} md={{ order: 'last' }} className="pe-0">
+              <ButtonGroup className="mb-2 mb-md-0 d-flex justify-content-end">
                 {this.radios.map((radio, idx) => (
                   <ToggleButton
                     key={idx}
@@ -78,29 +73,29 @@ class Searchbar extends Component {
                   </ToggleButton>
                 ))}
               </ButtonGroup>
+            </Col>
 
-              <Col xs={12} md={6}>
-                <Form onSubmit={this.handleSubmit} className="d-flex">
-                  <Form.Control
-                    type="text"
-                    autoComplete="off"
-                    autoFocus
-                    placeholder="Search images and photos"
-                    className="me-2"
-                    aria-label="Search"
-                    bg={theme}
-                    value={searchQuery}
-                    onChange={this.handleInputChange}
-                  />
-                  <Button type="submit" variant="primary">
-                    Search
-                  </Button>
-                </Form>
-              </Col>
-            </Row>
-          </Container>
-        </Navbar>
-      </div>
+            <Col xs={12} md={6} className="ps-0 pe-0">
+              <Form onSubmit={this.handleSubmit} className="d-flex">
+                <Form.Control
+                  type="text"
+                  autoComplete="off"
+                  autoFocus
+                  placeholder="Search images and photos"
+                  className="me-2"
+                  aria-label="Search"
+                  bg={theme}
+                  value={searchQuery}
+                  onChange={this.handleInputChange}
+                />
+                <Button type="submit" variant="primary">
+                  Search
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </Navbar>
     );
   }
 }
