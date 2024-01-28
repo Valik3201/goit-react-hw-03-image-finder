@@ -10,7 +10,7 @@ const fetchImages = async (searchQuery, currentPage) => {
   const params = {
     q: searchQuery,
     page: currentPage,
-    keyy: API_KEY,
+    key: API_KEY,
     image_type: 'photo',
     orientation: 'horizontal',
     per_page: PER_PAGE,
