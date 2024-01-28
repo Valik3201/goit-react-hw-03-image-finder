@@ -5,6 +5,8 @@ built using the React library. The primary objective is to facilitate image
 search functionality by interfacing with the Pixabay API, fetching high-quality
 images based on user-provided keywords.
 
+[![screenshot](https://github.com/Valik3201/goit-react-hw-03-image-finder/blob/main/assets/1.png)](https://github.com/Valik3201/goit-react-hw-03-image-finder/blob/main/assets/1.png)
+
 ## Features
 
 - **Image Search:** Find images by entering keywords in the search bar.
@@ -49,6 +51,8 @@ images based on user-provided keywords.
 
 5. **Load More Images:**
    - If you want to see more images, simply click the "Load More" button.
+
+[![screenshot](https://github.com/Valik3201/goit-react-hw-03-image-finder/blob/main/assets/2.png)](https://github.com/Valik3201/goit-react-hw-03-image-finder/blob/main/assets/2.png)
 
 ## Project Structure
 
