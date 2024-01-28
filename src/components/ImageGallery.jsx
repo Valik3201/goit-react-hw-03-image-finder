@@ -31,33 +31,35 @@ class ImageGallery extends Component {
     const { showModal, selectedImage } = this.state;
 
     return (
-      <Container className="justify-content-center">
-        <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-          {images.map(
-            (
-              { id, webformatURL, largeImageURL, tags, user, userImageURL },
-              index
-            ) => (
-              <ImageGallery.Item
-                key={`${index}-${id}`}
-                id={id}
-                webformatURL={webformatURL}
-                largeImageURL={largeImageURL}
-                tags={tags}
-                user={user}
-                userImageURL={userImageURL}
-                openModal={this.openModal}
-              />
-            )
-          )}
-        </Row>
+      <Row>
+        <Container className="justify-content-center">
+          <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+            {images.map(
+              (
+                { id, webformatURL, largeImageURL, tags, user, userImageURL },
+                index
+              ) => (
+                <ImageGallery.Item
+                  key={`${index}-${id}`}
+                  id={id}
+                  webformatURL={webformatURL}
+                  largeImageURL={largeImageURL}
+                  tags={tags}
+                  user={user}
+                  userImageURL={userImageURL}
+                  openModal={this.openModal}
+                />
+              )
+            )}
+          </Row>
 
-        <ImageModal
-          showModal={showModal}
-          selectedImage={selectedImage}
-          closeModal={this.closeModal}
-        />
-      </Container>
+          <ImageModal
+            showModal={showModal}
+            selectedImage={selectedImage}
+            closeModal={this.closeModal}
+          />
+        </Container>
+      </Row>
     );
   }
 }

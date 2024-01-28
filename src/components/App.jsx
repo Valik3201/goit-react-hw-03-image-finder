@@ -7,7 +7,7 @@ import { SearchResultInfo } from './SearchResultInfo';
 import ErrorAlert from './ErrorAlert';
 import NoResultsAlert from './NoResultsAlert';
 
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import fetchImages from 'services/api';
 
@@ -93,25 +93,19 @@ class App extends Component {
           {error && <ErrorAlert errorMessage={error} />}
           {images.length > 0 && !error ? (
             <>
-              <Row>
-                <SearchResultInfo
-                  searchQuery={searchQuery}
-                  totalHits={totalHits}
-                />
-              </Row>
-              <Row>
-                <ImageGallery images={images} />
-              </Row>
-              <Row>
-                {totalHits > images.length && (
-                  <LoadMoreBtn onClick={this.loadMoreImages} />
-                )}
-              </Row>
+              <SearchResultInfo
+                searchQuery={searchQuery}
+                totalHits={totalHits}
+              />
+
+              <ImageGallery images={images} />
+
+              {totalHits > images.length && (
+                <LoadMoreBtn onClick={this.loadMoreImages} />
+              )}
             </>
           ) : images.length === 0 && searchQuery && !error ? (
-            <Row>
-              <NoResultsAlert searchQuery={searchQuery} />
-            </Row>
+            <NoResultsAlert searchQuery={searchQuery} />
           ) : (
             !error && <ImagePortalWelcome />
           )}
