@@ -18,7 +18,7 @@ const SearchResultInfo = ({ searchQuery, totalHits }) => (
           {/* Bootstrap Alert component with a primary variant */}
           <Alert variant="primary">
             Showing <span className="fw-bold">{totalHits}</span> results for
-            <span className="fw-bold">{searchQuery}</span>
+            <span className="fw-bold"> {searchQuery}</span>
           </Alert>
         </Col>
       </Row>
