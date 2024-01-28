@@ -34,9 +34,12 @@ class ImageGallery extends Component {
       <Container className="justify-content-center">
         <Row xs={1} sm={2} md={3} lg={4} className="g-4">
           {images.map(
-            ({ id, webformatURL, largeImageURL, tags, user, userImageURL }) => (
+            (
+              { id, webformatURL, largeImageURL, tags, user, userImageURL },
+              index
+            ) => (
               <ImageGallery.Item
-                key={id}
+                key={`${index}-${id}`}
                 id={id}
                 webformatURL={webformatURL}
                 largeImageURL={largeImageURL}
