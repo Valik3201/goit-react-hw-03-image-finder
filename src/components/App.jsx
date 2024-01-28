@@ -24,7 +24,7 @@ class App extends Component {
       currentPage: 1,
       isLoading: false,
       error: null,
-      totalHits: 0,
+      totalHits: null,
     };
   }
 
@@ -91,24 +91,23 @@ class App extends Component {
         <Container className="d-flex flex-column justify-content-center mb-5 mx-auto">
           {isLoading && <Loader />}
           {error && <ErrorAlert errorMessage={error} />}
-          {images.length > 0 && !error ? (
+          {images.length > 0 && !error && (
             <>
               <SearchResultInfo
                 searchQuery={searchQuery}
                 totalHits={totalHits}
               />
-
               <ImageGallery images={images} />
-
               {totalHits > images.length && (
                 <LoadMoreBtn onClick={this.loadMoreImages} />
               )}
             </>
-          ) : images.length === 0 && searchQuery && !error ? (
-            <NoResultsAlert searchQuery={searchQuery} />
-          ) : (
-            !error && <ImagePortalWelcome />
           )}
+          {!error && searchQuery && totalHits === 0 && (
+            <NoResultsAlert searchQuery={searchQuery} />
+          )}
+
+          {!searchQuery && <ImagePortalWelcome />}
         </Container>
       </>
     );
