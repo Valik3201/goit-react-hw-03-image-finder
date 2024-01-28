@@ -59,12 +59,16 @@ class ImageGallery extends Component {
           <Row xs={1} sm={2} md={3} lg={4} className="g-4">
             {/* Map through the images array and render ImageGalleryItem for each image */}
             {images.map(
-              (
-                { id, webformatURL, largeImageURL, tags, user, userImageURL },
-                index
-              ) => (
+              ({
+                id,
+                webformatURL,
+                largeImageURL,
+                tags,
+                user,
+                userImageURL,
+              }) => (
                 <ImageGallery.Item
-                  key={`${index}-${id}`}
+                  key={id}
                   id={id}
                   webformatURL={webformatURL}
                   largeImageURL={largeImageURL}
