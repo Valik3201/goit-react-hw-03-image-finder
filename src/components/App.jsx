@@ -75,6 +75,10 @@ class App extends Component {
   };
 
   handleSubmit = searchQuery => {
+    if (searchQuery === this.state.searchQuery) {
+      return;
+    }
+
     this.setState({
       searchQuery: searchQuery,
       images: [],
