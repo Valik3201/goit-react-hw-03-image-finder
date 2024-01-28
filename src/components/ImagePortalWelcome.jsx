@@ -1,6 +1,6 @@
 import { Container, Row, Col, Alert } from 'react-bootstrap';
 
-function ImagePortalWelcome() {
+const ImagePortalWelcome = () => {
   return (
     <Container>
       <Row className="justify-content-center mt-5">
@@ -23,6 +23,6 @@ function ImagePortalWelcome() {
       </Row>
     </Container>
   );
-}
+};
 
 export default ImagePortalWelcome;

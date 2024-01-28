@@ -1,6 +1,11 @@
 import { Spinner } from 'react-bootstrap';
 
-export const Loader = () => {
+/**
+ * React component representing a loading spinner.
+ * @function
+ * @returns {JSX.Element} - The rendered React element.
+ */
+const Loader = () => {
   return (
     <div
       style={{
@@ -15,9 +20,15 @@ export const Loader = () => {
         zIndex: 2000,
       }}
     >
+      {/* Bootstrap Spinner component with "border" animation */}
       <Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
       </Spinner>
     </div>
   );
 };
+
+/**
+ * Exporting the Loader component as the default export of the module.
+ */
+export default Loader;
