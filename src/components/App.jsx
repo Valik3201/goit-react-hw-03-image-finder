@@ -9,14 +9,10 @@ import NoResultsAlert from './NoResultsAlert';
 
 import { Container, Row } from 'react-bootstrap';
 
-import axios from 'axios';
+import fetchImages from 'services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Loader } from './Loader';
-
-const API_KEY = '41006597-e52c63fe5093395ccafd50f48';
-
-axios.defaults.baseURL = 'https://pixabay.com/api';
 
 class App extends Component {
   constructor(props) {
@@ -25,38 +21,32 @@ class App extends Component {
     this.state = {
       images: [],
       searchQuery: '',
-      activePage: 1,
+      currentPage: 1,
       isLoading: false,
       error: null,
+      totalHits: 0,
     };
   }
 
-  getImages = async (searchQuery, activePage) => {
+  getImages = async () => {
+    const { searchQuery, currentPage } = this.state;
+
+    if (!searchQuery) {
+      return;
+    }
+
     try {
       this.setState({
         isLoading: true,
       });
 
-      const params = {
-        q: searchQuery,
-        page: activePage,
-        key: API_KEY,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        per_page: 12,
-      };
+      const { hits, totalHits } = await fetchImages(searchQuery, currentPage);
 
-      const response = await axios.get('/', { params });
-
-      this.setState(prevState => ({
-        images:
-          searchQuery !== prevState.searchQuery
-            ? response.data.hits
-            : [...prevState.images, ...response.data.hits],
-
-        activePage: searchQuery !== prevState.searchQuery ? 1 : activePage,
-
-        searchQuery,
+      // Append new images to the existing ones
+      this.setState(prev => ({
+        images: [...prev.images, ...hits],
+        error: null,
+        totalHits: totalHits || 0,
       }));
     } catch (error) {
       this.setState({
@@ -69,39 +59,53 @@ class App extends Component {
     }
   };
 
-  loadMoreImages = () => {
-    const { searchQuery, activePage } = this.state;
-    const nextPage = activePage + 1;
-
-    this.getImages(searchQuery, nextPage);
-    this.setState({ activePage: nextPage });
-  };
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.searchQuery !== this.props.searchQuery) {
-      this.getImages(this.props.searchQuery);
+  async componentDidUpdate(_prevProps, prevState) {
+    if (
+      prevState.searchQuery !== this.state.searchQuery ||
+      prevState.currentPage !== this.state.currentPage
+    ) {
+      this.getImages();
     }
   }
 
+  loadMoreImages = () => {
+    this.setState(prev => ({
+      currentPage: prev.currentPage + 1,
+    }));
+  };
+
+  handleSubmit = searchQuery => {
+    this.setState({
+      searchQuery: searchQuery,
+      images: [],
+      currentPage: 1,
+    });
+  };
+
   render() {
-    const { images, searchQuery, isLoading, error } = this.state;
+    const { images, searchQuery, isLoading, error, totalHits } = this.state;
 
     return (
       <>
-        <Searchbar onSearch={this.getImages} />
+        <Searchbar onSubmit={this.handleSubmit} />
         <Container className="d-flex flex-column justify-content-center mb-5 mx-auto">
           {isLoading && <Loader />}
           {error && <ErrorAlert errorMessage={error} />}
           {images.length > 0 && !error ? (
             <>
               <Row>
-                <SearchResultInfo searchQuery={searchQuery} />
+                <SearchResultInfo
+                  searchQuery={searchQuery}
+                  totalHits={totalHits}
+                />
               </Row>
               <Row>
                 <ImageGallery images={images} />
               </Row>
               <Row>
-                <LoadMoreBtn onClick={this.loadMoreImages} />
+                {totalHits > images.length && (
+                  <LoadMoreBtn onClick={this.loadMoreImages} />
+                )}
               </Row>
             </>
           ) : images.length === 0 && searchQuery && !error ? (
